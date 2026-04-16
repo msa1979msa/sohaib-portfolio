@@ -81,7 +81,7 @@ export default function Navbar() {
               </Link>
             ))}
             <a
-              href="/resume.pdf"
+              href="/Sohaib_Ahmed_Resume.pdf"
               download
               className="btn-primary"
               style={{ padding: '8px 20px', fontSize: 13, marginLeft: 8 }}
@@ -125,7 +125,7 @@ export default function Navbar() {
                 {l.label}
               </Link>
             ))}
-            <a href="/resume.pdf" download className="btn-primary" style={{ margin: '8px 16px 0', justifyContent: 'center' }}>
+            <a href="/Sohaib_Ahmed_Resume.pdf" download className="btn-primary" style={{ margin: '8px 16px 0', justifyContent: 'center' }}>
               <Download size={14} /> Download Resume
             </a>
           </div>
