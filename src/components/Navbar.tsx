@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { Menu, X, Download, Zap } from 'lucide-react'
+import { Menu, X, Download } from 'lucide-react'
 
 const links = [
   { href: '/', label: 'Home' },
@@ -81,10 +81,10 @@ export default function Navbar() {
               </Link>
             ))}
             <a
-              href="/Sohaib_Ahmed_Resume.pdf"
-              download
+              href="https://raw.githubusercontent.com/msa1979msa/sohaib-portfolio/master/public/Sohaib_Ahmed_Resume.pdf"
+              download="Sohaib_Ahmed_Resume.pdf"
               className="btn-primary"
-              style={{ padding: '8px 20px', fontSize: 13, marginLeft: 8 }}
+              style={{ padding: '8px 20px', fontSize: 13, marginLeft: 8, display: 'inline-flex', alignItems: 'center', gap: 8 }}
             >
               <Download size={14} />
               Resume
@@ -125,7 +125,12 @@ export default function Navbar() {
                 {l.label}
               </Link>
             ))}
-            <a href="/Sohaib_Ahmed_Resume.pdf" download className="btn-primary" style={{ margin: '8px 16px 0', justifyContent: 'center' }}>
+            <a 
+              href="https://raw.githubusercontent.com/msa1979msa/sohaib-portfolio/master/public/Sohaib_Ahmed_Resume.pdf" 
+              download="Sohaib_Ahmed_Resume.pdf" 
+              className="btn-primary" 
+              style={{ margin: '8px 16px 0', justifyContent: 'center', display: 'inline-flex', alignItems: 'center', gap: 8 }}
+            >
               <Download size={14} /> Download Resume
             </a>
           </div>
