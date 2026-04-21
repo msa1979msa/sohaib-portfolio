@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { ArrowRight, BarChart3, Smartphone, Code2, Heart, ExternalLink } from 'lucide-react'
+import { ArrowRight, BarChart3, Smartphone, Code2, Heart, ExternalLink, TrendingUp, Brain } from 'lucide-react'
 
 const projects = [
   {
@@ -28,6 +28,25 @@ const projects = [
     iconColor: '#38bdf8',
     highlights: ['Double-entry bookkeeping', 'Real-time CRM pipeline', 'Multi-module inventory', 'Role-based access control', 'Financial reporting & P&L'],
     category: 'Enterprise',
+  },
+  {
+    slug: 'financeai',
+    title: 'FinanceAI — Intelligent Financial Advisor',
+    tagline: 'RAG-powered stock predictions with ML ensemble models & real-time market data',
+    desc: 'A production-ready AI financial advisor combining Retrieval-Augmented Generation (RAG) with a RandomForest + GradientBoosting ensemble. Fetches live stock data via yfinance, indexes 50+ financial concepts in a FAISS vector store, and delivers next-day price direction predictions with confidence scores through a FastAPI backend and real-time chat interface.',
+    tags: ['Python', 'FastAPI', 'RAG', 'FAISS', 'scikit-learn', 'yfinance', 'sentence-transformers', 'ML'],
+    badge: 'Live · AI · Finance',
+    badgeColor: '#f5c542',
+    icon: TrendingUp,
+    iconColor: '#f5c542',
+    highlights: [
+      'Live stock data: AAPL, MSFT, GOOGL, NVDA, META, TSLA, AMZN, AMD',
+      'ML ensemble: RandomForest + GradientBoosting VotingClassifier',
+      '14 technical indicators: RSI, MACD, Bollinger Bands, volatility',
+      'FAISS vector store with sentence-transformer embeddings',
+      'Real-time RAG chat with source citation panel',
+    ],
+    category: 'AI · Finance',
   },
   {
     slug: 'powerbi',
@@ -79,19 +98,12 @@ export default function ProjectsPage() {
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 32 }}>
           {projects.map((p, i) => (
             <div key={i} className="card glow-box" style={{ padding: 0, overflow: 'hidden' }}>
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: i % 2 === 0 ? '1fr 300px' : '300px 1fr',
-              }}>
+              <div style={{ display: 'grid', gridTemplateColumns: i % 2 === 0 ? '1fr 300px' : '300px 1fr' }}>
                 {/* Content */}
                 <div style={{ padding: '40px 44px', order: i % 2 === 0 ? 0 : 1 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20, flexWrap: 'wrap' }}>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, padding: '4px 12px', borderRadius: 100, background: `${p.badgeColor}15`, color: p.badgeColor, border: `1px solid ${p.badgeColor}30`, letterSpacing: '0.06em' }}>
-                      {p.badge}
-                    </span>
-                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--muted)', padding: '4px 12px', border: '1px solid var(--border)', borderRadius: 100 }}>
-                      {p.category}
-                    </span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, padding: '4px 12px', borderRadius: 100, background: `${p.badgeColor}15`, color: p.badgeColor, border: `1px solid ${p.badgeColor}30`, letterSpacing: '0.06em' }}>{p.badge}</span>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--muted)', padding: '4px 12px', border: '1px solid var(--border)', borderRadius: 100 }}>{p.category}</span>
                   </div>
                   <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 24, marginBottom: 10 }}>{p.title}</h2>
                   <p style={{ color: 'var(--accent)', fontSize: 14, marginBottom: 16, fontStyle: 'italic' }}>{p.tagline}</p>
@@ -116,9 +128,7 @@ export default function ProjectsPage() {
                   <div style={{ width: 52, height: 52, borderRadius: 14, background: `${p.iconColor}15`, border: `1px solid ${p.iconColor}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 8 }}>
                     <p.icon size={24} style={{ color: p.iconColor }} />
                   </div>
-                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--accent)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8 }}>
-                    Key Features
-                  </div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--accent)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8 }}>Key Features</div>
                   {p.highlights.map((h, j) => (
                     <div key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, color: 'var(--text)', lineHeight: 1.5 }}>
                       <span style={{ width: 6, height: 6, borderRadius: '50%', background: p.iconColor, flexShrink: 0, marginTop: 5 }} />
@@ -136,15 +146,9 @@ export default function ProjectsPage() {
       <section style={{ padding: '0 24px 100px' }}>
         <div style={{ maxWidth: 700, margin: '0 auto', textAlign: 'center', padding: '56px 40px', border: '1px solid var(--border)', borderRadius: 24, background: 'var(--surface)' }}>
           <div className="section-label" style={{ justifyContent: 'center', marginBottom: 16 }}>Next Step</div>
-          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 32, marginBottom: 16 }}>
-            Have a Project in Mind?
-          </h2>
-          <p style={{ color: 'var(--muted)', fontSize: 16, marginBottom: 32, lineHeight: 1.8 }}>
-            Let's discuss how I can build something impactful for you or your company.
-          </p>
-          <Link href="/contact" className="btn-primary">
-            Start a Conversation <ArrowRight size={16} />
-          </Link>
+          <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 32, marginBottom: 16 }}>Have a Project in Mind?</h2>
+          <p style={{ color: 'var(--muted)', fontSize: 16, marginBottom: 32, lineHeight: 1.8 }}>Let's discuss how I can build something impactful for you or your company.</p>
+          <Link href="/contact" className="btn-primary">Start a Conversation <ArrowRight size={16} /></Link>
         </div>
       </section>
     </div>
