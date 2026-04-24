@@ -2,42 +2,35 @@
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import {
-  Download, ArrowRight, Cpu, Globe, Database, Zap, Shield, Code2,
-  BarChart3, Smartphone, GitBranch, Star, ExternalLink, ChevronRight,
-  Bot, Brain, Layers, Server, Network, TrendingUp, X, Send, MessageCircle
+  Download, ArrowRight, BarChart3, Smartphone, GitBranch, Star,
+  ExternalLink, Bot, Brain, Layers, Server, Network, TrendingUp,
+  X, Send, MessageCircle
 } from 'lucide-react'
 
 const TYPED_STRINGS = [
-  'AI Engineer',
-  'FastAPI Architect',
-  'Multi-Agent Systems',
-  'GPT Applications',
-  'LangGraph Expert',
+  'AI Engineer', 'FastAPI Architect', 'Multi-Agent Systems',
+  'GPT Applications', 'LangGraph Expert',
 ]
 
 function TypedText() {
   const [index, setIndex] = useState(0)
   const [displayed, setDisplayed] = useState('')
   const [deleting, setDeleting] = useState(false)
-
   useEffect(() => {
     const current = TYPED_STRINGS[index]
     let timeout: NodeJS.Timeout
-
     if (!deleting && displayed.length < current.length) {
       timeout = setTimeout(() => setDisplayed(current.slice(0, displayed.length + 1)), 80)
     } else if (!deleting && displayed.length === current.length) {
       timeout = setTimeout(() => setDeleting(true), 2000)
     } else if (deleting && displayed.length > 0) {
       timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 40)
-    } else if (deleting && displayed.length === 0) {
+    } else {
       setDeleting(false)
       setIndex((index + 1) % TYPED_STRINGS.length)
     }
-
     return () => clearTimeout(timeout)
   }, [displayed, deleting, index])
-
   return (
     <span style={{ color: 'var(--accent)', fontFamily: 'var(--font-mono)' }}>
       {displayed}<span className="typing-cursor" />
@@ -82,62 +75,55 @@ const projects = [
     title: 'AI Healthcare Management Platform',
     desc: 'Secure hospital system with AI patient data analysis, GPT report summarization, smart billing anomaly detection, and role-based access.',
     tags: ['React', 'Node.js', 'GPT API', 'PostgreSQL'],
-    badge: 'AI-Powered',
-    badgeColor: '#34d399',
-    href: '/projects/healthcare',
+    badge: 'AI-Powered', badgeColor: '#34d399', href: '/projects/healthcare',
+  },
+  {
+    title: 'MedAI Doctor — Multi-Agent Clinical System',
+    desc: '5 specialized AI agents (Triage, Symptom Analyst, ICD-10 Coder, Lab Agent, Diagnosis Agent) delivering clinical-grade differential diagnosis, SOAP notes, drug lookup across 60K+ medications, and lab analysis via OpenRouter with auto model fallback.',
+    tags: ['React', 'OpenRouter', 'Multi-Agent', 'LangGraph', 'ICD-10', 'HIPAA'],
+    badge: 'Live · AI · Medical', badgeColor: '#00e5c8', href: '/projects/medai',
   },
   {
     title: 'Extreme MSA ERP System',
     desc: 'Enterprise-grade ERP with double-entry accounting, CRM, inventory & HR modules. GAAP compliant.',
     tags: ['Next.js', 'Node.js', 'SQLite', 'TypeScript'],
-    badge: 'Production Ready',
-    badgeColor: '#38bdf8',
-    href: '/projects/erp',
+    badge: 'Production Ready', badgeColor: '#38bdf8', href: '/projects/erp',
   },
   {
     title: 'FinanceAI — Intelligent Financial Advisor',
     desc: 'RAG-powered financial advisor combining FAISS vector search, ML ensemble predictions, and real-time stock data to deliver personalised investment insights via a FastAPI backend.',
     tags: ['Python', 'FastAPI', 'RAG', 'FAISS', 'scikit-learn', 'yfinance'],
-    badge: 'Live · AI',
-    badgeColor: '#f5c542',
-    href: '/projects/financeai',
+    badge: 'Live · AI', badgeColor: '#f5c542', href: '/projects/financeai',
   },
   {
     title: 'Power BI Business Analytics',
     desc: 'Advanced BI dashboards with predictive analytics, real-time data, and interactive visualizations.',
     tags: ['Power BI', 'DAX', 'SQL', 'Excel'],
-    badge: 'Live',
-    badgeColor: '#38bdf8',
-    href: '/projects/powerbi',
+    badge: 'Live', badgeColor: '#38bdf8', href: '/projects/powerbi',
   },
   {
     title: 'Cross-Platform Mobile Apps',
     desc: 'Flutter & React Native apps with offline support, push notifications, and Firebase backend.',
     tags: ['Flutter', 'Dart', 'React Native', 'Firebase'],
-    badge: 'Published',
-    badgeColor: '#818cf8',
-    href: '/projects/mobile',
+    badge: 'Published', badgeColor: '#818cf8', href: '/projects/mobile',
   },
 ]
 
-// ─── Portfolio Chatbot ────────────────────────────────────────────────────────
+// ── Portfolio Chatbot ──────────────────────────────────────────────────────────
 const PORTFOLIO_KB = [
-  { q: ['who are you', 'about you', 'introduce yourself', 'tell me about'], a: "I'm Muhammad Sohaib Ahmed — an AI Engineer and Full-Stack Developer with 3+ years of experience building production-ready AI systems, RAG pipelines, multi-agent orchestration, and enterprise backends using FastAPI, LangGraph, GPT-4, and Next.js 14." },
-  { q: ['projects', 'work', 'portfolio', 'what have you built'], a: "I've built 5 enterprise projects: an AI Healthcare Management Platform (GPT + PostgreSQL), an ERP System (GAAP-compliant), FinanceAI (RAG + ML stock predictions), Power BI Analytics dashboards, and Cross-Platform Mobile Apps. Check the Projects page for full case studies!" },
-  { q: ['financeai', 'finance', 'stock', 'financial advisor'], a: "FinanceAI is my latest project — a RAG-powered financial advisor combining FAISS vector search, a RandomForest + GradientBoosting ensemble for next-day stock price prediction, real-time data via yfinance, and a FastAPI backend. It fetches live market data and delivers personalised investment insights via chat." },
-  { q: ['healthcare', 'hospital', 'medical'], a: "The AI Healthcare Management Platform is a full hospital system with GPT-based clinical report summarization, smart billing anomaly detection, RBAC (Admin/Doctor/Finance roles), real-time patient analytics, and secure REST APIs built on Node.js + PostgreSQL." },
-  { q: ['erp', 'enterprise', 'accounting'], a: "The Extreme MSA ERP System is a GAAP-compliant enterprise system with double-entry bookkeeping, real-time CRM, multi-warehouse inventory, HR & payroll modules, and financial reporting — built with Next.js 14, Node.js, SQLite, and TypeScript." },
-  { q: ['skills', 'tech stack', 'technologies', 'expertise'], a: "My core stack: FastAPI, LangGraph, LangChain, GPT-4, Pinecone, RAG (Python AI); Node.js, Express, REST APIs, WebSockets (Backend); Next.js 14, React 18, TypeScript, Tailwind (Frontend); PostgreSQL, MongoDB, SQLite, pgvector (Databases); Docker, GitHub Actions, Vercel, AWS (DevOps); Power BI, DAX, SQL (Analytics)." },
-  { q: ['experience', 'years', 'background'], a: "3+ years of experience in AI engineering and backend development. I've delivered 15+ AI projects in production, built 50+ RESTful & GraphQL endpoints, and maintained 99.9% uptime SLA on enterprise systems." },
-  { q: ['certifications', 'education', 'degree', 'courses'], a: "I hold an IBM AI Engineering certification (Coursera), Google Data Analytics, Meta Back-End Developer, and a Computer Science degree from the University of the People (USA)." },
-  { q: ['contact', 'hire', 'reach', 'available', 'open to'], a: "I'm currently open to opportunities! You can reach me through the Contact page on this portfolio, or connect on GitHub at github.com/msa1979msa. I'm available for full-time roles, freelance projects, and consulting." },
-  { q: ['github', 'code', 'repository', 'open source'], a: "My GitHub is github.com/msa1979msa — 10+ repositories, 50+ commits/month, 15K+ lines of code, active for 3+ years. Check it out for my latest code!" },
-  { q: ['rag', 'retrieval', 'vector', 'embeddings', 'faiss', 'pinecone'], a: "I specialise in RAG (Retrieval-Augmented Generation) pipelines. For FinanceAI I used FAISS with sentence-transformers for local vector search. For larger enterprise systems I use Pinecone with OpenAI embeddings and LangChain for orchestration." },
-  { q: ['fastapi', 'api', 'backend', 'python'], a: "FastAPI is my primary backend framework. I use it to build high-performance async REST APIs with Pydantic validation, JWT auth, CORS middleware, background tasks with Celery, and WebSocket support." },
-  { q: ['langgraph', 'langchain', 'agents', 'multi-agent'], a: "I design multi-agent systems using LangGraph for stateful agent orchestration — building workflows that reason, plan, and act autonomously. Combined with LangChain for tool use, memory, and LLM chaining." },
-  { q: ['hello', 'hi', 'hey', 'good morning', 'good afternoon'], a: "Hey there! 👋 I'm Sohaib's AI portfolio assistant. Ask me anything about his projects, skills, experience, or how to get in touch!" },
-  { q: ['mobile', 'flutter', 'react native', 'app'], a: "I built cross-platform mobile apps using Flutter (Dart) and React Native, with offline-first architecture, Firebase real-time sync, push notifications, and REST API integration — ready for both iOS and Android." },
-  { q: ['power bi', 'analytics', 'dashboard', 'bi', 'data'], a: "I built advanced Power BI dashboards with DAX-powered KPIs, SQL data pipelines, predictive analytics models, and executive reporting for enterprise decision-making." },
+  { q: ['who are you', 'about you', 'introduce'], a: "I'm Muhammad Sohaib Ahmed — an AI Engineer & Full-Stack Developer specialising in multi-agent orchestration, RAG pipelines, and enterprise backends using FastAPI, LangGraph, GPT-4, and Next.js 14." },
+  { q: ['medai', 'doctor', 'medical', 'clinical', 'drug', 'lab', 'icd'], a: "MedAI Doctor is a multi-agent clinical intelligence system with 5 specialised AI agents — Triage, Symptom Analyst, ICD-10 Coder, Lab Agent, and Diagnosis Agent. It covers 60K+ medications, lab analysis, SOAP notes, differential diagnosis, and HIPAA-ready compliance. Powered by OpenRouter with auto model fallback." },
+  { q: ['financeai', 'finance', 'stock', 'financial'], a: "FinanceAI is a RAG-powered financial advisor with a RandomForest + GradientBoosting ensemble ML model. It fetches live stock data via yfinance, uses FAISS vector search over 50+ financial concepts, and delivers next-day price predictions with confidence scores through a FastAPI backend." },
+  { q: ['healthcare', 'hospital', 'billing'], a: "The AI Healthcare Management Platform features GPT-based clinical report summarization, smart billing anomaly detection, RBAC (Admin/Doctor/Finance), real-time patient analytics, and secure REST APIs built on Node.js + PostgreSQL." },
+  { q: ['erp', 'enterprise', 'accounting'], a: "The Extreme MSA ERP is GAAP-compliant with double-entry bookkeeping, real-time CRM, multi-warehouse inventory, HR & payroll, and financial reporting — built with Next.js 14, Node.js, SQLite, and TypeScript." },
+  { q: ['projects', 'work', 'portfolio', 'built'], a: "I've built 6 enterprise projects: AI Healthcare Platform, MedAI Doctor (multi-agent clinical AI), FinanceAI (RAG + ML), ERP System, Power BI Analytics, and Cross-Platform Mobile Apps. See the Projects page for full case studies!" },
+  { q: ['skills', 'tech', 'stack', 'expertise'], a: "Core stack: FastAPI, LangGraph, LangChain, GPT-4, Pinecone, RAG (AI); Node.js, Express, REST APIs (Backend); Next.js 14, React 18, TypeScript (Frontend); PostgreSQL, MongoDB, FAISS, pgvector (Data); Docker, GitHub Actions, Vercel, AWS (DevOps)." },
+  { q: ['multi-agent', 'agents', 'langgraph', 'orchestration'], a: "I design multi-agent systems using LangGraph for stateful orchestration. MedAI Doctor is the best example — 5 specialised agents working together: Triage → Symptom Analysis → ICD-10 Coding → Lab Review → Diagnosis, all orchestrated by a Supervisor Agent." },
+  { q: ['openrouter', 'llm', 'model', 'gemini', 'llama'], a: "MedAI Doctor uses OpenRouter for LLM access — it auto-fetches live free models, tries the user's preferred model first, then falls back across all available free models automatically. No model is hardcoded." },
+  { q: ['contact', 'hire', 'reach', 'available'], a: "I'm open to opportunities! Reach me through the Contact page or GitHub at github.com/msa1979msa. Available for full-time roles, freelance, and consulting." },
+  { q: ['certifications', 'education', 'degree'], a: "IBM AI Engineering (Coursera), Google Data Analytics, Meta Back-End Developer, and a CS degree from University of the People (USA)." },
+  { q: ['github', 'code', 'repository'], a: "GitHub: github.com/msa1979msa — 10+ repos, 50+ commits/month, 15K+ lines of code." },
+  { q: ['hello', 'hi', 'hey'], a: "Hey! 👋 I'm Sohaib's AI portfolio assistant. Ask me about his projects, skills, experience, or how to hire him!" },
 ]
 
 function getReply(msg: string): string {
@@ -145,21 +131,19 @@ function getReply(msg: string): string {
   for (const entry of PORTFOLIO_KB) {
     if (entry.q.some(kw => lower.includes(kw))) return entry.a
   }
-  return "Great question! I'm best at answering about Sohaib's projects, tech stack, experience, and contact info. Try asking about FinanceAI, his skills, or how to hire him! 😊"
+  return "Great question! I can best answer about Sohaib's projects (MedAI, FinanceAI, Healthcare, ERP), skills, experience, and contact. Try asking about MedAI Doctor or his multi-agent expertise! 😊"
 }
 
 function PortfolioChatbot() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<{ role: 'user' | 'bot'; text: string }[]>([
-    { role: 'bot', text: "👋 Hi! I'm Sohaib's AI portfolio assistant. Ask me about his projects, skills, experience, or how to get in touch!" }
+    { role: 'bot', text: "👋 Hi! I'm Sohaib's AI assistant. Ask me about MedAI Doctor, FinanceAI, his skills, or how to hire him!" }
   ])
   const [input, setInput] = useState('')
   const [typing, setTyping] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const endRef = useRef<HTMLDivElement>(null)
 
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages, typing])
+  useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages, typing])
 
   const send = () => {
     const text = input.trim()
@@ -170,55 +154,37 @@ function PortfolioChatbot() {
     setTimeout(() => {
       setTyping(false)
       setMessages(prev => [...prev, { role: 'bot', text: getReply(text) }])
-    }, 800 + Math.random() * 400)
+    }, 700 + Math.random() * 400)
   }
 
   return (
     <>
-      {/* Floating button */}
-      <button
-        onClick={() => setOpen(o => !o)}
-        style={{
-          position: 'fixed', bottom: 28, right: 28, zIndex: 1000,
-          width: 56, height: 56, borderRadius: '50%',
-          background: 'linear-gradient(135deg, #38bdf8, #818cf8)',
-          border: 'none', cursor: 'pointer',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: '0 4px 24px rgba(56,189,248,0.4)',
-          transition: 'transform 0.2s, box-shadow 0.2s',
-        }}
+      <button onClick={() => setOpen(o => !o)} aria-label="Open portfolio chatbot" style={{
+        position: 'fixed', bottom: 28, right: 28, zIndex: 1000,
+        width: 56, height: 56, borderRadius: '50%',
+        background: 'linear-gradient(135deg, #38bdf8, #818cf8)',
+        border: 'none', cursor: 'pointer',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        boxShadow: '0 4px 24px rgba(56,189,248,0.4)',
+        transition: 'transform 0.2s',
+      }}
         onMouseOver={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.1)' }}
         onMouseOut={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)' }}
-        aria-label="Open portfolio chatbot"
       >
         {open ? <X size={22} color="white" /> : <MessageCircle size={22} color="white" />}
       </button>
 
-      {/* Chat window */}
       {open && (
         <div style={{
           position: 'fixed', bottom: 96, right: 28, zIndex: 999,
-          width: 360, height: 500,
-          background: '#0d1117',
-          border: '1px solid rgba(56,189,248,0.2)',
-          borderRadius: 20,
+          width: 360, height: 500, background: '#0d1117',
+          border: '1px solid rgba(56,189,248,0.2)', borderRadius: 20,
           display: 'flex', flexDirection: 'column',
-          boxShadow: '0 8px 48px rgba(0,0,0,0.6), 0 0 0 1px rgba(56,189,248,0.1)',
-          overflow: 'hidden',
-          animation: 'slideUp 0.25s ease',
+          boxShadow: '0 8px 48px rgba(0,0,0,0.6)',
+          overflow: 'hidden', animation: 'slideUp 0.25s ease',
         }}>
-          {/* Header */}
-          <div style={{
-            padding: '16px 20px',
-            background: 'linear-gradient(135deg, rgba(56,189,248,0.1), rgba(129,140,248,0.08))',
-            borderBottom: '1px solid rgba(56,189,248,0.15)',
-            display: 'flex', alignItems: 'center', gap: 12,
-          }}>
-            <div style={{
-              width: 36, height: 36, borderRadius: '50%',
-              background: 'linear-gradient(135deg, #38bdf8, #818cf8)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-            }}>
+          <div style={{ padding: '16px 20px', background: 'linear-gradient(135deg, rgba(56,189,248,0.1), rgba(129,140,248,0.08))', borderBottom: '1px solid rgba(56,189,248,0.15)', display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div style={{ width: 36, height: 36, borderRadius: '50%', background: 'linear-gradient(135deg, #38bdf8, #818cf8)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Bot size={18} color="white" />
             </div>
             <div>
@@ -230,89 +196,49 @@ function PortfolioChatbot() {
             </div>
           </div>
 
-          {/* Messages */}
-          <div style={{ flex: 1, overflowY: 'auto', padding: '16px', display: 'flex', flexDirection: 'column', gap: 12, scrollbarWidth: 'thin', scrollbarColor: 'rgba(56,189,248,0.2) transparent' }}>
+          <div style={{ flex: 1, overflowY: 'auto', padding: 16, display: 'flex', flexDirection: 'column', gap: 10, scrollbarWidth: 'thin', scrollbarColor: 'rgba(56,189,248,0.2) transparent' }}>
             {messages.map((m, i) => (
               <div key={i} style={{ display: 'flex', justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start' }}>
                 <div style={{
-                  maxWidth: '82%',
-                  padding: '10px 14px',
+                  maxWidth: '82%', padding: '10px 14px', fontSize: 13, lineHeight: 1.6, color: '#f0f6fc',
                   borderRadius: m.role === 'user' ? '14px 14px 4px 14px' : '14px 14px 14px 4px',
-                  background: m.role === 'user'
-                    ? 'linear-gradient(135deg, rgba(56,189,248,0.2), rgba(129,140,248,0.15))'
-                    : 'rgba(255,255,255,0.05)',
-                  border: m.role === 'user'
-                    ? '1px solid rgba(56,189,248,0.3)'
-                    : '1px solid rgba(255,255,255,0.08)',
-                  fontSize: 13,
-                  lineHeight: 1.6,
-                  color: '#f0f6fc',
-                }}>
-                  {m.text}
-                </div>
+                  background: m.role === 'user' ? 'linear-gradient(135deg,rgba(56,189,248,0.2),rgba(129,140,248,0.15))' : 'rgba(255,255,255,0.05)',
+                  border: m.role === 'user' ? '1px solid rgba(56,189,248,0.3)' : '1px solid rgba(255,255,255,0.08)',
+                }}>{m.text}</div>
               </div>
             ))}
             {typing && (
-              <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+              <div style={{ display: 'flex' }}>
                 <div style={{ padding: '10px 16px', borderRadius: '14px 14px 14px 4px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', display: 'flex', gap: 4 }}>
-                  {[0, 1, 2].map(i => (
-                    <span key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: '#38bdf8', opacity: 0.6, animation: `typingBounce 1.2s ease infinite ${i * 0.2}s`, display: 'inline-block' }} />
-                  ))}
+                  {[0, 1, 2].map(i => <span key={i} style={{ width: 6, height: 6, borderRadius: '50%', background: '#38bdf8', opacity: 0.6, display: 'inline-block', animation: `typingBounce 1.2s ease infinite ${i * 0.2}s` }} />)}
                 </div>
               </div>
             )}
-            <div ref={messagesEndRef} />
+            <div ref={endRef} />
           </div>
 
-          {/* Quick suggestions */}
           <div style={{ padding: '8px 12px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-            {['FinanceAI project', 'Skills & stack', 'Hire Sohaib'].map(s => (
-              <button key={s} onClick={() => { setInput(s); }} style={{
-                padding: '4px 10px', borderRadius: 100, fontSize: 11,
-                background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.2)',
-                color: '#38bdf8', cursor: 'pointer', fontFamily: 'var(--font-mono)',
-                transition: 'all 0.15s',
-              }}
+            {['MedAI Doctor', 'FinanceAI', 'Hire Sohaib'].map(s => (
+              <button key={s} onClick={() => setInput(s)} style={{ padding: '4px 10px', borderRadius: 100, fontSize: 11, background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.2)', color: '#38bdf8', cursor: 'pointer', fontFamily: 'var(--font-mono)', transition: 'all 0.15s' }}
                 onMouseOver={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(56,189,248,0.18)' }}
                 onMouseOut={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(56,189,248,0.08)' }}
-              >
-                {s}
-              </button>
+              >{s}</button>
             ))}
           </div>
 
-          {/* Input */}
           <div style={{ padding: '12px 16px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', gap: 8 }}>
-            <input
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && send()}
-              placeholder="Ask about projects, skills..."
-              style={{
-                flex: 1, padding: '9px 14px', borderRadius: 12,
-                background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(56,189,248,0.2)',
-                color: '#f0f6fc', fontSize: 13, outline: 'none', fontFamily: 'var(--font-body)',
-              }}
-            />
-            <button onClick={send} style={{
-              width: 38, height: 38, borderRadius: 10, flexShrink: 0,
-              background: 'linear-gradient(135deg, #38bdf8, #818cf8)',
-              border: 'none', cursor: 'pointer',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              transition: 'transform 0.15s',
-            }}
+            <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && send()} placeholder="Ask about projects, skills..."
+              style={{ flex: 1, padding: '9px 14px', borderRadius: 12, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(56,189,248,0.2)', color: '#f0f6fc', fontSize: 13, outline: 'none', fontFamily: 'var(--font-body)' }} />
+            <button onClick={send} style={{ width: 38, height: 38, borderRadius: 10, flexShrink: 0, background: 'linear-gradient(135deg,#38bdf8,#818cf8)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'transform 0.15s' }}
               onMouseOver={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1.08)' }}
               onMouseOut={e => { (e.currentTarget as HTMLElement).style.transform = 'scale(1)' }}
-            >
-              <Send size={16} color="white" />
-            </button>
+            ><Send size={16} color="white" /></button>
           </div>
         </div>
       )}
-
       <style>{`
-        @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes typingBounce { 0%,60%,100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-5px); opacity: 1; } }
+        @keyframes slideUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes typingBounce { 0%,60%,100%{transform:translateY(0);opacity:.4} 30%{transform:translateY(-5px);opacity:1} }
       `}</style>
     </>
   )
@@ -321,50 +247,40 @@ function PortfolioChatbot() {
 export default function HomePage() {
   return (
     <div style={{ paddingTop: 70 }}>
-      {/* ═══ HERO ═══ */}
+      {/* HERO */}
       <section style={{ minHeight: '92vh', display: 'flex', alignItems: 'center', padding: '80px 24px 60px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '20%', left: '10%', width: 500, height: 500, background: 'radial-gradient(circle, rgba(56,189,248,0.08) 0%, transparent 70%)', borderRadius: '50%', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: '20%', right: '10%', width: 400, height: 400, background: 'radial-gradient(circle, rgba(129,140,248,0.08) 0%, transparent 70%)', borderRadius: '50%', pointerEvents: 'none' }} />
-
+        <div style={{ position: 'absolute', top: '20%', left: '10%', width: 500, height: 500, background: 'radial-gradient(circle,rgba(56,189,248,0.08) 0%,transparent 70%)', borderRadius: '50%', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: '20%', right: '10%', width: 400, height: 400, background: 'radial-gradient(circle,rgba(129,140,248,0.08) 0%,transparent 70%)', borderRadius: '50%', pointerEvents: 'none' }} />
         <div className="hero-grid" style={{ maxWidth: 1200, margin: '0 auto', width: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 60, alignItems: 'center' }}>
           <div>
             <div className="animate-in delay-1" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '6px 16px', borderRadius: 100, border: '1px solid rgba(52,211,153,0.3)', background: 'rgba(52,211,153,0.06)', marginBottom: 28 }}>
               <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#34d399', boxShadow: '0 0 8px #34d399', display: 'inline-block' }} />
               <span style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: '#34d399', letterSpacing: '0.08em' }}>OPEN TO OPPORTUNITIES</span>
             </div>
-
             <div className="animate-in delay-2">
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 13, color: 'var(--muted)', letterSpacing: '0.1em', marginBottom: 10 }}>Muhammad Sohaib Ahmed</div>
-              <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 5vw, 60px)', fontWeight: 800, lineHeight: 1.1, marginBottom: 8 }}><TypedText /></h1>
-              <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px, 5vw, 60px)', fontWeight: 800, lineHeight: 1.1, marginBottom: 24 }} className="gradient-text">FastAPI · LangGraph</h1>
+              <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px,5vw,60px)', fontWeight: 800, lineHeight: 1.1, marginBottom: 8 }}><TypedText /></h1>
+              <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(36px,5vw,60px)', fontWeight: 800, lineHeight: 1.1, marginBottom: 24 }} className="gradient-text">FastAPI · LangGraph</h1>
             </div>
-
             <p className="animate-in delay-3" style={{ fontSize: 18, color: 'var(--muted)', lineHeight: 1.8, marginBottom: 36, maxWidth: 520 }}>
-              I design and build <strong style={{ color: 'var(--text)' }}>production-ready AI systems</strong> and scalable backend architectures used in real-world applications. Specializing in multi-agent orchestration, RAG pipelines, and enterprise software.
+              I design and build <strong style={{ color: 'var(--text)' }}>production-ready AI systems</strong> and scalable backend architectures. Specializing in multi-agent orchestration, RAG pipelines, and enterprise software.
             </p>
-
             <div className="animate-in delay-4" style={{ display: 'flex', gap: 14, flexWrap: 'wrap', marginBottom: 48 }}>
               <Link href="/projects" className="btn-primary">View My Work <ArrowRight size={16} /></Link>
               <a href="/resume.pdf" download className="btn-secondary"><Download size={16} /> Download Resume (PDF)</a>
             </div>
-
             <div className="animate-in delay-5" style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              {['FastAPI', 'LangGraph', 'GPT-4', 'Next.js 14', 'Pinecone', 'Python'].map(t => (
-                <span key={t} className="tag">{t}</span>
-              ))}
+              {['FastAPI', 'LangGraph', 'GPT-4', 'Next.js 14', 'Pinecone', 'Python'].map(t => <span key={t} className="tag">{t}</span>)}
             </div>
           </div>
-
-          <div className="animate-in delay-3" style={{ display: 'flex', justifyContent: 'center' }}>
-            <ArchDiagram />
-          </div>
+          <div className="animate-in delay-3" style={{ display: 'flex', justifyContent: 'center' }}><ArchDiagram /></div>
         </div>
       </section>
 
-      {/* ═══ STATS ═══ */}
+      {/* STATS */}
       <section style={{ padding: '0 24px 80px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 1, border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden', background: 'var(--border)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 1, border: '1px solid var(--border)', borderRadius: 16, overflow: 'hidden', background: 'var(--border)' }}>
             {stats.map((s, i) => (
               <div key={i} style={{ background: 'var(--surface)', padding: '32px 24px', textAlign: 'center' }}>
                 <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 40, color: 'var(--accent)', lineHeight: 1 }}>{s.value}</div>
@@ -376,17 +292,15 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ SERVICES ═══ */}
+      {/* SERVICES */}
       <section style={{ padding: '80px 24px', background: 'var(--surface)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 64 }}>
             <div className="section-label" style={{ justifyContent: 'center', marginBottom: 16 }}>What I Can Do For You</div>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(28px, 4vw, 44px)', marginBottom: 16 }}>
-              Solutions That Drive <span className="gradient-text">Real Business Value</span>
-            </h2>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(28px,4vw,44px)', marginBottom: 16 }}>Solutions That Drive <span className="gradient-text">Real Business Value</span></h2>
             <p style={{ color: 'var(--muted)', fontSize: 16, maxWidth: 560, margin: '0 auto' }}>Recruiters don't just want skills — they want solutions. Here's how I can help your company.</p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 20 }}>
             {services.map((s, i) => (
               <div key={i} className="card glow-box" style={{ padding: 28, cursor: 'default' }}>
                 <div style={{ width: 48, height: 48, borderRadius: 12, background: `${s.color}15`, border: `1px solid ${s.color}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
@@ -400,20 +314,17 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ FEATURED PROJECTS ═══ */}
+      {/* FEATURED PROJECTS */}
       <section style={{ padding: '80px 24px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 48, flexWrap: 'wrap', gap: 16 }}>
             <div>
               <div className="section-label" style={{ marginBottom: 16 }}>Featured Work</div>
-              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(28px, 4vw, 40px)' }}>
-                Enterprise <span className="gradient-text">Projects</span>
-              </h2>
+              <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(28px,4vw,40px)' }}>Enterprise <span className="gradient-text">Projects</span></h2>
             </div>
             <Link href="/projects" className="btn-secondary">View All Projects <ArrowRight size={14} /></Link>
           </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: 24 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(320px,1fr))', gap: 24 }}>
             {projects.map((p, i) => (
               <Link key={i} href={p.href} style={{ textDecoration: 'none' }}>
                 <div className="card glow-box" style={{ padding: 28, height: '100%', display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -423,9 +334,7 @@ export default function HomePage() {
                   </div>
                   <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 18, color: 'var(--text)' }}>{p.title}</h3>
                   <p style={{ color: 'var(--muted)', fontSize: 14, lineHeight: 1.8, flex: 1 }}>{p.desc}</p>
-                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                    {p.tags.map(t => <span key={t} className="tag">{t}</span>)}
-                  </div>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>{p.tags.map(t => <span key={t} className="tag">{t}</span>)}</div>
                 </div>
               </Link>
             ))}
@@ -433,50 +342,45 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ TECH STACK ═══ */}
+      {/* TECH STACK */}
       <section style={{ padding: '80px 24px', background: 'var(--surface)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <div className="section-label" style={{ justifyContent: 'center', marginBottom: 16 }}>Technical Expertise</div>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(28px, 4vw, 40px)' }}>Core <span className="gradient-text">Technology Stack</span></h2>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(28px,4vw,40px)' }}>Core <span className="gradient-text">Technology Stack</span></h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 20 }}>
             {techStack.map((group, i) => (
               <div key={i} className="card" style={{ padding: 24 }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontSize: 12, color: 'var(--accent)', letterSpacing: '0.1em', marginBottom: 16, textTransform: 'uppercase' }}>{group.category}</div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                  {group.items.map(item => <span key={item} className="tag">{item}</span>)}
-                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>{group.items.map(item => <span key={item} className="tag">{item}</span>)}</div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ═══ TRUST SIGNALS ═══ */}
+      {/* TRUST SIGNALS */}
       <section style={{ padding: '80px 24px' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <div className="section-label" style={{ justifyContent: 'center', marginBottom: 16 }}>Credentials & Trust</div>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(28px, 4vw, 40px)' }}>Certifications & <span className="gradient-text">Education</span></h2>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(28px,4vw,40px)' }}>Certifications & <span className="gradient-text">Education</span></h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 20 }}>
             {certifications.map((c, i) => (
               <div key={i} className="card border-glow" style={{ padding: 24, borderRadius: 16 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-                  <div style={{ width: 40, height: 40, borderRadius: 10, background: `${c.color}15`, border: `1px solid ${c.color}30`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Star size={18} style={{ color: c.color }} />
-                  </div>
+                  <div style={{ width: 40, height: 40, borderRadius: 10, background: `${c.color}15`, border: `1px solid ${c.color}30`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Star size={18} style={{ color: c.color }} /></div>
                   <div>
                     <div style={{ fontWeight: 700, fontSize: 14, fontFamily: 'var(--font-display)' }}>{c.name}</div>
                     <div style={{ fontSize: 12, color: 'var(--muted)', fontFamily: 'var(--font-mono)' }}>{c.issuer}</div>
                   </div>
                 </div>
-                <div style={{ height: 3, borderRadius: 100, background: `linear-gradient(90deg, ${c.color}, transparent)` }} />
+                <div style={{ height: 3, borderRadius: 100, background: `linear-gradient(90deg,${c.color},transparent)` }} />
               </div>
             ))}
           </div>
-
           <div style={{ marginTop: 40, padding: 28, border: '1px solid var(--border)', borderRadius: 16, background: 'var(--surface)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 20 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <GitBranch size={24} style={{ color: 'var(--accent)' }} />
@@ -486,7 +390,7 @@ export default function HomePage() {
               </div>
             </div>
             <div style={{ display: 'flex', gap: 32, flexWrap: 'wrap' }}>
-              {[['15K+', 'Lines of Code'], ['50+', 'Commits/Month'], ['10+', 'Repositories'], ['3+', 'Years Active']].map(([v, l]) => (
+              {[['15K+','Lines of Code'],['50+','Commits/Month'],['10+','Repositories'],['3+','Years Active']].map(([v,l]) => (
                 <div key={l} style={{ textAlign: 'center' }}>
                   <div style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 22, color: 'var(--accent)' }}>{v}</div>
                   <div style={{ fontSize: 12, color: 'var(--muted)' }}>{l}</div>
@@ -500,18 +404,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ CTA ═══ */}
+      {/* CTA */}
       <section style={{ padding: '80px 24px' }}>
         <div style={{ maxWidth: 800, margin: '0 auto' }}>
-          <div style={{ padding: '64px 48px', borderRadius: 24, textAlign: 'center', background: 'linear-gradient(135deg, rgba(56,189,248,0.08), rgba(129,140,248,0.08))', border: '1px solid rgba(56,189,248,0.2)', position: 'relative', overflow: 'hidden' }}>
-            <div style={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(56,189,248,0.1), transparent 70%)' }} />
+          <div style={{ padding: '64px 48px', borderRadius: 24, textAlign: 'center', background: 'linear-gradient(135deg,rgba(56,189,248,0.08),rgba(129,140,248,0.08))', border: '1px solid rgba(56,189,248,0.2)', position: 'relative', overflow: 'hidden' }}>
+            <div style={{ position: 'absolute', top: -50, right: -50, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle,rgba(56,189,248,0.1),transparent 70%)' }} />
             <div className="section-label" style={{ justifyContent: 'center', marginBottom: 20 }}>Let's Build Together</div>
-            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(26px, 4vw, 40px)', marginBottom: 16 }}>
-              Ready to Build Something <span className="gradient-text">Extraordinary?</span>
-            </h2>
-            <p style={{ color: 'var(--muted)', fontSize: 16, marginBottom: 36, lineHeight: 1.8 }}>
-              Whether it's an AI agent pipeline, a scalable API, or a full enterprise system — I bring vision to production.
-            </p>
+            <h2 style={{ fontFamily: 'var(--font-display)', fontWeight: 800, fontSize: 'clamp(26px,4vw,40px)', marginBottom: 16 }}>Ready to Build Something <span className="gradient-text">Extraordinary?</span></h2>
+            <p style={{ color: 'var(--muted)', fontSize: 16, marginBottom: 36, lineHeight: 1.8 }}>Whether it's an AI agent pipeline, a scalable API, or a full enterprise system — I bring vision to production.</p>
             <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
               <Link href="/contact" className="btn-primary">Start a Conversation <ArrowRight size={16} /></Link>
               <a href="/resume.pdf" download className="btn-secondary"><Download size={16} /> Download Resume</a>
@@ -520,7 +420,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ═══ CHATBOT ═══ */}
       <PortfolioChatbot />
     </div>
   )
@@ -548,10 +447,9 @@ function ArchDiagram() {
         <ArchNode x={295} y={348} label="Pinecone Vector DB" color="#a78bfa" emoji="📦" width={145} />
       </svg>
       <div style={{ marginTop: 16, display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-        {[['#38bdf8', 'API Layer'], ['#34d399', 'AI Agents'], ['#818cf8', 'Frontend'], ['#f472b6', 'Storage']].map(([c, l]) => (
+        {[['#38bdf8','API Layer'],['#34d399','AI Agents'],['#818cf8','Frontend'],['#f472b6','Storage']].map(([c,l]) => (
           <div key={l} style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 10, color: 'var(--muted)' }}>
-            <span style={{ width: 8, height: 8, borderRadius: 2, background: c, display: 'inline-block' }} />
-            {l}
+            <span style={{ width: 8, height: 8, borderRadius: 2, background: c, display: 'inline-block' }} />{l}
           </div>
         ))}
       </div>
@@ -563,9 +461,9 @@ function ArchNode({ x, y, label, color, emoji, width }: { x: number; y: number; 
   const hw = width / 2
   return (
     <g>
-      <rect x={x - hw} y={y - 22} width={width} height={44} rx={10} fill={`${color}10`} stroke={`${color}50`} strokeWidth="1" />
-      <text x={x - hw + 12} y={y + 5} fontSize="14" dominantBaseline="middle">{emoji}</text>
-      <text x={x - hw + 32} y={y + 5} fontSize="10" fill={color} dominantBaseline="middle" fontFamily="var(--font-mono)">{label}</text>
+      <rect x={x-hw} y={y-22} width={width} height={44} rx={10} fill={`${color}10`} stroke={`${color}50`} strokeWidth="1" />
+      <text x={x-hw+12} y={y+5} fontSize="14" dominantBaseline="middle">{emoji}</text>
+      <text x={x-hw+32} y={y+5} fontSize="10" fill={color} dominantBaseline="middle" fontFamily="var(--font-mono)">{label}</text>
     </g>
   )
 }
